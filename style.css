@@ -11,10 +11,10 @@ tr td {
     border-radius: 4px; 
     background: #fff;
 }
-tr td:hover {
+/*tr td:hover {
     background: #a2c3dd; 
     transition-duration: 0.2s;
-}
+}*/
 
 div.empty {
     height: 10px;
@@ -28,4 +28,29 @@ div.div_timer{
 
 div.div_btn_start{
     width: 210px;
+}
+
+td.red{
+    background: red;
+}
+td.yellow{
+    background: yellow;
+}
+td.green{
+    background: green;
+}
+td.blue{
+    background: blue;
+}
+td.magenta{
+    background: magenta;
+}
+td.orange{
+    background: orange;
+}
+td.gray{
+    background: gray;
+}
+td.black{
+    background: black;
 }
