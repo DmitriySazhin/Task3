@@ -30,6 +30,9 @@ div.div_btn_start{
     width: 210px;
 }
 
+td.white{
+    background: white;
+}
 td.red{
     background: red;
 }
