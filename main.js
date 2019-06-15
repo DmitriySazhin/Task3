@@ -18,37 +18,35 @@ const fieldCards = [
                     [0,0,0,0],
                     ];
 
+let counterOpenCell = 0;
+let colorOpenCell = '';                    
 createField();
 
 //Запуск игры
 function startPlay(){
     alert("Start game");
-    console.log(arrayColor);
-    //placedColor();
-    //placedColor();
+    document.querySelectorAll('.block-cell').forEach(element => {
+        if(element.classList.length > 1){
+            element.classList.remove(element.dataset.color);
+            counterOpenCell = 0;
+            colorOpenCell = '';
+            element.onclick = openCell;
+        };
+    });
+    placedColor();
+
 }
 
 
 function createField(){ 
-    let colorArray1 = colorArray.slice();
-    //placedColor();
-    let colorArray2 = colorArray.slice();
-    let r = (func(colorArray1,getRandomInt(0,colorArray1.length-1)) + ";" + func(colorArray2,getRandomInt(0,colorArray2.length-1))).split(";");
-    //let resarray = func(colorArray1,getRandomInt(0,colorArray1.length-1));
-    //resarray += ";";
-    //resarray += func(colorArray2,getRandomInt(0,colorArray2.length-1));
-    //let r = resarray.split(";");
-    console.log(resarray);
-    console.log(r);
-    
     document.querySelector('#play-field').innerHTML='';
     for(let i=0; i<fieldCards.length;i++){
         let row = fieldCards[i];
         for(let j=0; j<row.length; j++){
-            document.querySelector('#play-field').innerHTML += `<div class="block-cell" colorIndex = "${r[4*i+j]}" data-x="${i}" data-y="${j}"></div>`;
+            document.querySelector('#play-field').innerHTML += `<div class="block-cell" data-color = "" data-x="${i}" data-y="${j}"></div>`;
         }
     }
-
+    placedColor();
     document.querySelectorAll(".block-cell").forEach(element => {
         element.onclick = openCell;
     });
@@ -56,11 +54,18 @@ function createField(){
 
 //Распределение цветов по карточкам
 function placedColor(){
-    
-    let keys = Object.keys(colorCell);
-    for(let k=0; k<keys.length;k++){
-        fieldCards[getRandomInt(0,3)][getRandomInt(0,3)] = keys[k];
-    }
+    //let colorArray1 = colorArray.slice();
+    //let colorArray2 = colorArray.slice().reverse();
+    let colorArray1 = [...colorArray.reverse(), ...colorArray];
+    //let r = (func(colorArray1,getRandomInt(0,colorArray1.length-1)) + ";" + func(colorArray2,getRandomInt(0,colorArray2.length-1))).split(";");
+    //let r = [...func(colorArray1,getRandomInt(0,colorArray1.length-1)).split(";"), ...func(colorArray2,getRandomInt(0,colorArray2.length-1)).split(";")];
+    let r = func(colorArray1, getRandomInt(0,colorArray1.length-1)).split(";");
+    console.log(r);
+    let i = 0;
+    document.querySelectorAll('.block-cell').forEach(element => {
+        element.dataset.color = r[i];
+        i += 1;
+    });
 }
 
 function func(arrayColor,element){
@@ -79,8 +84,38 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-function colorPalette(arrayColor,posIndex){
-    let arrayNew = [];
-    arrayNew.push();
-    return arrayNew;
+function openCell(){
+    let cell = this;
+    cell.classList.add(cell.dataset.color);
+    if (counterOpenCell === 1) {
+        console.log(counterOpenCell, colorOpenCell);
+        if(colorOpenCell === cell.dataset.color){
+            //cell.classList.add(cell.dataset.color);
+            console.log(cell.dataset.color);
+            cell.onclick = '';
+            counterOpenCell = 0;
+            colorOpenCell = '';
+        } else {
+            console.log(counterOpenCell, colorOpenCell);
+            console.log(cell.dataset.color);
+            //cell.classList.add(cell.dataset.color);
+            document.querySelector(`div[class~="${colorOpenCell}"]`).onclick = openCell;
+            document.querySelector(`div[class~="${colorOpenCell}"]`).classList.remove(colorOpenCell);
+            counterOpenCell = 0;
+            colorOpenCell = '';
+            cell.classList.remove(cell.dataset.color);
+            cell.onclick = openCell;
+        }
+    } else {
+        console.log(counterOpenCell, colorOpenCell);
+        console.log(cell.dataset.color);
+        counterOpenCell += 1;
+        colorOpenCell = cell.dataset.color;
+        //cell.classList.add(cell.dataset.color);
+        cell.onclick = '';
+    }
+    //let cell = this;
+//    console.log(cell);
+//    console.log(cell.dataset.color);
+//    cell.classList.add(cell.dataset.color);
 }

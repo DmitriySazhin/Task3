@@ -14,7 +14,7 @@
     border: 1px solid black;
 }
 
-.block-cell:hover{
+div[class="block-cell"]:hover{
     background: lightgray;
 }
 
